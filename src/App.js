@@ -3,7 +3,7 @@ import './App.css';
 import Header from './components/header';
 import SidebarNav from './components/sidenavbar';
 import Routes from './controllers/routes';
-import Modal from './components/modal';
+// import Modal from './components/modal';
 // import { Link } from 'react-router-dom';
 
 const App = ()=>(
@@ -15,7 +15,6 @@ const App = ()=>(
         <Routes />
       </div>
     </div>
-    <Modal />
   </div>
 )
 

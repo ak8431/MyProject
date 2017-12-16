@@ -2,14 +2,20 @@ import React from 'react';
 import axios from 'axios';
 import appUrl from '../../constants/api_constant'
 import BugList from './bug_list';
+import Modal from '../../components/modal';
+import TrackBug from './bug_track';
+import $ from 'jquery';
 
 export default class TrackReportedBugs extends React.Component{
     constructor(props){
         super(props);
         this.state = {
             showDetails : false,
-            bugsList  : []
+            bugsList    : [],
+            ticketId    : null,
+            title       : 'Bug Status'
         }
+        this.openModal = this.openModal.bind(this);
     }
 
     fetchAllReports(email){
@@ -19,6 +25,7 @@ export default class TrackReportedBugs extends React.Component{
             contentType:'application/json'
         }).then((response)=>{
             if(!response.data.meta){
+                console.log(response.data);
                 // document.getElementById('myModal').modal('toggle');
             }else{
                 this.setState({showDetails: true, bugsList : response.data.data});
@@ -44,10 +51,20 @@ export default class TrackReportedBugs extends React.Component{
         this.setState({showDetails: false});
     }
 
+    openModal(id, title){
+        this.setState({bugModal : false});
+        let _this = this;
+        _this.setState({ticketId: id, title : title});
+        // $('#'+id).modal('show');
+        setTimeout(function(){
+            _this.setState({bugModal:true});
+        },200);
+    }
+
     render(){
         let bugList = this.state.bugsList.map((detail,index)=>{
             return (
-                <BugList detail={detail} index={index} key={detail.ticketId} />
+                <BugList detail={detail} openModal={this.openModal} index={index} key={detail.ticketId} />
             )
         })
         return(
@@ -90,6 +107,11 @@ export default class TrackReportedBugs extends React.Component{
                         </table>
                     </div> : null
                 }
+                <Modal modalId={this.state.ticketId} title={this.state.title}>
+                    {
+                        this.state.bugModal ? <TrackBug id={this.state.ticketId} title={this.state.title} /> : null 
+                    }
+                </Modal>
             </div>
         )
     }

@@ -19,7 +19,7 @@ export default class TrackBug extends React.Component{
     getBugDetails(){
         axios({
             method : 'GET',
-            url    : appUrl.REPORTS+`/ticket/${this.props.match.params.id}`,
+            url    : appUrl.REPORTS+`/ticket/${this.props.id}`,
             contentType:'application/json'
         }).then(response=>{
             this.setState({

@@ -10,6 +10,10 @@ export default class BugList extends React.Component{
         this.index = this.props.index
     }
 
+    openBugModal(e, id, title){
+        this.props.openModal(id, title);
+    }
+
     render(){
         return(
             <tr>
@@ -19,9 +23,9 @@ export default class BugList extends React.Component{
                 <td>{this.state.detail.attributes.estimated_date_to_fix}</td>
                 <td>{this.state.detail.attributes.status}</td>
                 <td>
-                    <Link className="btn btn-default btn-sm pointer" to={`/track-bug/${this.state.detail.ticketId}`}>
+                    <a className="btn btn-default btn-sm pointer" onClick={e=>this.openBugModal(e, this.state.detail.ticketId, 'Bug Status')}>
                         <i className="fa fa-telegram"></i>
-                    </Link>
+                    </a>
                 </td>
             </tr>
         )

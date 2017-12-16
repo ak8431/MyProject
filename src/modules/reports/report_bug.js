@@ -22,7 +22,7 @@ export default class ReportBug extends React.Component{
                         <input type="email" className="form-control" id="inputEmail4" placeholder="Email" />
                     </div>
                     <div className="form-group col-md-8 offset-md-2">
-                        <label for="environment">Select Environment</label>
+                        <label htmlFor="environment">Select Environment</label>
                         <select id="environment" defaultValue="0" className="form-control">
                             <option disabled value="0">Select Environment</option>
                             {/* {environment} */}
@@ -31,11 +31,11 @@ export default class ReportBug extends React.Component{
                     <div className="col-md-8 offset-md-2">
                         <div className="form-row">
                             <div className="form-group col-md-6">
-                                <label for="username">Username</label>
+                                <label htmlFor="username">Username</label>
                                 <input type="text" className="form-control" id="username" placeholder="User Name" />
                             </div>
                             <div className="form-group col-md-6">
-                                <label for="organisation">Organisation Name</label>
+                                <label htmlFor="organisation">Organisation Name</label>
                                 <input type="text" className="form-control" id="organisation" placeholder="Organisation Name" />
                             </div>
                         </div>
@@ -43,11 +43,11 @@ export default class ReportBug extends React.Component{
                     <div className="col-md-8 offset-md-2">
                         <div className="form-row">
                             <div className="form-group col-md-6">
-                                <label for="url">Url</label>
+                                <label htmlFor="url">Url</label>
                                 <input type="url" className="form-control" id="url" placeholder="Enter environment Url" />
                             </div>
                             <div className="form-group col-md-6">
-                                <label for="version">Version</label>
+                                <label htmlFor="version">Version</label>
                                 <input type="number" className="form-control" id="version" placeholder="Enter version number" />
                             </div>
                         </div>
@@ -60,7 +60,7 @@ export default class ReportBug extends React.Component{
                         </label>
                     </div>
                     <div className="form-group col-md-8 offset-md-2">
-                        <label for="priority">Select Bug Priority</label>
+                        <label htmlFor="priority">Select Bug Priority</label>
                         <select className="form-control" id="priority" defaultValue="Normal">
                             <option disabled value="Normal">Select Priority of Bug</option>
                             <option value="High">High</option>
@@ -69,11 +69,11 @@ export default class ReportBug extends React.Component{
                         </select>
                     </div>
                     <div className="form-group col-md-8 offset-md-2">
-                        <label for="description">Description</label>
+                        <label htmlFor="description">Description</label>
                         <textarea className="form-control" id="descripton" rows="3" placeholder="Describe your Bug in detail"></textarea>
                     </div>
                     <div className="form-group col-md-8 offset-md-2">
-                        <label for="expectedResult">Expected Result</label>
+                        <label htmlFor="expectedResult">Expected Result</label>
                         <textarea className="form-control" id="expectedResult" rows="3" placeholder="Describe what you expected"></textarea>
                     </div>
                     <div className="form-group col-md-8 offset-md-2">
