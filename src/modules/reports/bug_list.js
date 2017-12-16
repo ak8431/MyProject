@@ -1,5 +1,5 @@
 import React from 'react';
-import {Link} from 'react-router-dom'
+// import {Link} from 'react-router-dom';
 
 export default class BugList extends React.Component{
     constructor(props){
@@ -23,7 +23,7 @@ export default class BugList extends React.Component{
                 <td>{this.state.detail.attributes.estimated_date_to_fix}</td>
                 <td>{this.state.detail.attributes.status}</td>
                 <td>
-                    <a className="btn btn-default btn-sm pointer" onClick={e=>this.openBugModal(e, this.state.detail.ticketId, 'Bug Status')}>
+                    <a className="btn btn-default btn-sm pointer" data-toggle="modal" data-target={"#"+this.state.detail.ticketId} onClick={e=>this.openBugModal(e, this.state.detail.ticketId, 'Bug Status')}>
                         <i className="fa fa-telegram"></i>
                     </a>
                 </td>

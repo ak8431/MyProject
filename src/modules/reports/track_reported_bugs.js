@@ -15,7 +15,8 @@ export default class TrackReportedBugs extends React.Component{
             ticketId    : null,
             title       : 'Bug Status'
         }
-        this.openModal = this.openModal.bind(this);
+        this.openModal  = this.openModal.bind(this);
+        this.closeModal = this.closeModal.bind(this);
     }
 
     fetchAllReports(email){
@@ -52,13 +53,16 @@ export default class TrackReportedBugs extends React.Component{
     }
 
     openModal(id, title){
-        this.setState({bugModal : false});
         let _this = this;
-        _this.setState({ticketId: id, title : title});
-        // $('#'+id).modal('show');
-        setTimeout(function(){
-            _this.setState({bugModal:true});
-        },200);
+        _this.setState({ticketId: id, title : title, bugModal : true});
+        
+        // setTimeout(function(){
+        //     _this.setState({bugModal:true});
+        // },200);
+    }
+
+    closeModal(){
+        this.setState({bugModal : false});
     }
 
     render(){
@@ -84,6 +88,7 @@ export default class TrackReportedBugs extends React.Component{
                             </div>
                             <button type="button" className="btn btn-primary col-md-3 pointer" onClick={e=>this.handleDetails(e)}>Find</button>
                         </div>
+                        
                     </form> : null
                 }
                 {
@@ -107,7 +112,7 @@ export default class TrackReportedBugs extends React.Component{
                         </table>
                     </div> : null
                 }
-                <Modal modalId={this.state.ticketId} title={this.state.title}>
+                <Modal modalId={this.state.ticketId} title={this.state.title} closeModal={this.closeModal}>
                     {
                         this.state.bugModal ? <TrackBug id={this.state.ticketId} title={this.state.title} /> : null 
                     }

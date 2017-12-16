@@ -30,12 +30,13 @@ export default class TrackBug extends React.Component{
     }
 
     render(){
+        let api = 'http://18.221.153.152:5000';
         return(
             <div>
                 {
                     this.state.showBug ? 
-                    <div className="row">
-                        <div className="card col-sm-6">
+                    <div className="row" style={{height:"300px", overflow:"auto"}}>
+                        <div className="card col-sm-12">
                             <div className="row">
                                 <div className="col-sm-12">
                                     <span className="badge badge-primary pull-left" style={{marginLeft:"-15px"}}>{this.state.bugDetail.attributes.status}</span>
@@ -71,8 +72,8 @@ export default class TrackBug extends React.Component{
                                 </ul>
                             </div>
                         </div>
-                        <div className="col-sm-6">
-                            <img className="card-img-top" src={this.state.bugDetail.attributes.screenshot[0].thumb_location} alt={this.state.bugDetail.attributes.screenshot[0].filename} />
+                        <div className="col-sm-12">
+                            <img className="card-img-top" src={api+this.state.bugDetail.attributes.screenshot[0].thumb_location.substr(8)} alt={this.state.bugDetail.attributes.screenshot[0].filename} />
                         </div>
                     </div> : 
                     null
