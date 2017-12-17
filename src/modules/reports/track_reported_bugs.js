@@ -4,7 +4,7 @@ import appUrl from '../../constants/api_constant'
 import BugList from './bug_list';
 import Modal from '../../components/modal';
 import TrackBug from './bug_track';
-import $ from 'jquery';
+// import $ from 'jquery';
 
 export default class TrackReportedBugs extends React.Component{
     constructor(props){
@@ -21,7 +21,7 @@ export default class TrackReportedBugs extends React.Component{
 
     fetchAllReports(email){
         axios({
-            url    : appUrl.REPORTS+'/'+email+'?limit=100&offset=0',
+            url    : appUrl.REPORTS+'/'+email+'?limit=200&offset=0',
             method : 'GET',
             contentType:'application/json'
         }).then((response)=>{
@@ -39,12 +39,19 @@ export default class TrackReportedBugs extends React.Component{
         return filter.test(email);
     }
 
+    handleSubmit(e){
+        e.preventDefault();
+        return this.handleDetails(e)
+    }
+
     handleDetails(e){
         e.preventDefault();
         let email   = this.refs.email.value.trim();
         let isValid = this.validateEmail(email);
         if(isValid){
             this.fetchAllReports(email);
+        }else{
+            alert('Not a valid Email-id')
         }
     }
 
@@ -55,10 +62,6 @@ export default class TrackReportedBugs extends React.Component{
     openModal(id, title){
         let _this = this;
         _this.setState({ticketId: id, title : title, bugModal : true});
-        
-        // setTimeout(function(){
-        //     _this.setState({bugModal:true});
-        // },200);
     }
 
     closeModal(){
@@ -80,7 +83,7 @@ export default class TrackReportedBugs extends React.Component{
                 We are shortly going to introduce aging of these bugs and avg time for bug fixing.
                 </p>
                 {!this.state.showDetails ? 
-                    <form>
+                    <form onSubmit={e=>this.handleSubmit(e)}>
                         <div className="form-inline">
                             <div className="input-group col-md-8">
                                 <label htmlFor="email"></label>
@@ -88,11 +91,7 @@ export default class TrackReportedBugs extends React.Component{
                             </div>
                             <button type="button" className="btn btn-primary col-md-3 pointer" onClick={e=>this.handleDetails(e)}>Find</button>
                         </div>
-                        
-                    </form> : null
-                }
-                {
-                    this.state.showDetails ?
+                    </form> :
                     <div className="table-responsive">
                         <button type="button" className="btn btn-primary pull-right mb-sm-2 pointer" onClick={e=>this.changeState(e)}>Go Back</button>
                         <table className="table table-striped">
@@ -110,7 +109,7 @@ export default class TrackReportedBugs extends React.Component{
                                 {bugList}
                             </tbody>
                         </table>
-                    </div> : null
+                    </div>
                 }
                 <Modal modalId={this.state.ticketId} title={this.state.title} closeModal={this.closeModal}>
                     {
