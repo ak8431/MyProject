@@ -12,10 +12,14 @@
 }
 .slide-in{
     background: transparent;
+    -webkit-transition: 300ms cubic-bezier(0.17, 0.04, 0.03, 0.94) ease-in-out;
+    -o-transition: 300ms cubic-bezier(0.17, 0.04, 0.03, 0.94) ease-in-out;
     transition: 300ms cubic-bezier(0.17, 0.04, 0.03, 0.94) ease-in-out;
 }
 .slide-out{
     background: transparent;
+    -webkit-transition: 300ms cubic-bezier(0.17, 0.04, 0.03, 0.94) ease-in-out;
+    -o-transition: 300ms cubic-bezier(0.17, 0.04, 0.03, 0.94) ease-in-out;
     transition: 300ms cubic-bezier(0.17, 0.04, 0.03, 0.94) ease-in-out;
     /* transition: 200ms ease-out;
     -webkit-transition: 200ms ease-out; */
@@ -68,7 +72,15 @@ h1 {
 .sidebar .nav-link {
     border-radius: 0;
 }
-
+.report-bug-form{
+    -webkit-box-shadow: 0 2px 2px #ccc;
+            box-shadow: 0 2px 2px #ccc;
+    padding: 5px 0;
+    border: 1px solid #eee;
+}
+.nav-pills .nav-item:active{
+    background-color:#007bff;
+}
 /*
 * Dashboard
 */
@@ -97,3 +109,12 @@ h1 {
     background-color: #F90;	
     background-image: -webkit-linear-gradient(45deg,rgba(255, 255, 255, .2) 25%,transparent 25%,transparent 50%,rgba(255, 255, 255, .2) 50%,rgba(255, 255, 255, .2) 75%,transparent 75%,transparent)
 }
+.p-sm{padding: 5px}
+.p{padding: 10px}
+.p-md{padding: 15px}
+.p-lg{padding: 20px}
+
+.f-sm{font-size: 5px}
+.f{font-size: 10px}
+.f-md{font-size: 15px}
+.f-lg{font-size: 20px}
