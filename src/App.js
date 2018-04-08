@@ -1,21 +1,36 @@
 import React from 'react';
-import './App.css';
+// import './App.css';
 import Header from './components/header';
-import SidebarNav from './components/sidenavbar';
+import SidebarNav from './components/sidebar';
 import Routes from './controllers/routes';
+import Div from './components/HtmlElements/Div';
 // import Modal from './components/modal';
-// import { Link } from 'react-router-dom';
 
-const App = ()=>(
-  <div className="container-fluid">
-    <Header />
-    <div className="scrollbars">
-      <div className="row">
-        <SidebarNav />
-        <Routes />
-      </div>
-    </div>
-  </div>
-)
+export default class App extends React.Component{
+  constructor(props){
+    super(props);
+    this.state = {
+      visibleClass : false
+    }
+    this.changeSidebarHandler = this.changeSidebarHandler.bind(this);
+  }
 
-export default App;
+  changeSidebarHandler(){
+    let visibleClass = this.state.visibleClass;
+    this.setState({ visibleClass : !visibleClass});
+  }
+
+  render(){
+    return(
+      <Div class="container-fluid">
+        <Header changeSidebarHandler={this.changeSidebarHandler} />
+        <Div class="scrollbars">
+          <Div class="row">
+            <SidebarNav visible={this.state.visibleClass} />
+            <Routes visible={this.state.visibleClass} />
+          </Div>
+        </Div>
+      </Div>
+    )
+  }
+}

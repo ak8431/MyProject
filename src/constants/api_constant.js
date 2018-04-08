@@ -5,5 +5,9 @@ var appUrl = {
     USER    : API_BASE_URL+'find-user',
     REPORTS : API_BASE_URL+'bug-report'
 };
-export default appUrl;
-export const version = '1.0.0';
+const version = '1.0.0';
+module.exports = { 
+    appUrl,
+    BASE_URL,
+    version
+}

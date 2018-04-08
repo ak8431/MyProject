@@ -1,9 +1,13 @@
 import React from 'react';
 import axios from 'axios';
-import appUrl from '../../constants/api_constant'
+import {appUrl} from '../../constants/api_constant'
 import BugList from './bug_list';
 import Modal from '../../components/modal';
 import TrackBug from './bug_track';
+import Paragraph from '../../components/paragraph';
+import Div from '../../components/HtmlElements/Div';
+import Form from '../../components/Form';
+import {validateEmail} from '../../controllers/functions';
 // import $ from 'jquery';
 
 export default class TrackReportedBugs extends React.Component{
@@ -34,11 +38,6 @@ export default class TrackReportedBugs extends React.Component{
         }).catch((err)=>console.log(err));
     }
 
-    validateEmail(email){
-        var filter = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-        return filter.test(email);
-    }
-
     handleSubmit(e){
         e.preventDefault();
         return this.handleDetails(e)
@@ -47,7 +46,7 @@ export default class TrackReportedBugs extends React.Component{
     handleDetails(e){
         e.preventDefault();
         let email   = this.refs.email.value.trim();
-        let isValid = this.validateEmail(email);
+        let isValid = validateEmail(email);
         if(isValid){
             this.fetchAllReports(email);
         }else{
@@ -74,25 +73,23 @@ export default class TrackReportedBugs extends React.Component{
                 <BugList detail={detail} openModal={this.openModal} index={index} key={detail.ticketId} />
             )
         })
+        let text = "You can track (Open, Assigned, being progressed, Testing, Staging, Fixed) bugs reported by you using your registered email id's :We are shortly going to introduce aging of these bugs and avg time for bug fixing."
         return(
-            <div>
-                <p className="text-center">
-                Hi there (again) <br />
-                You can track (Open, Assigned, being progressed, Testing, Staging, Fixed) 
-                bugs reported by you using your registered email id's :
-                We are shortly going to introduce aging of these bugs and avg time for bug fixing.
-                </p>
+            <Div class="p-lg">
+                <Paragraph text={text} class="text-center">
+                    <span>Hi there (again)</span> <br />
+                </Paragraph>
                 {!this.state.showDetails ? 
-                    <form onSubmit={e=>this.handleSubmit(e)}>
-                        <div className="form-inline">
-                            <div className="input-group col-md-8">
+                    <Form onSubmit={e=>this.handleSubmit(e)}>
+                        <Div class="form-inline">
+                            <Div class="input-group col-md-8">
                                 <label htmlFor="email"></label>
                                 <input id="email" type="email" className="form-control" placeholder="Enter Email-id to find your reported bugs" ref="email" />
-                            </div>
+                            </Div>
                             <button type="button" className="btn btn-primary col-md-3 pointer" onClick={e=>this.handleDetails(e)}>Find</button>
-                        </div>
-                    </form> :
-                    <div className="table-responsive">
+                        </Div>
+                    </Form> :
+                    <Div class="table-responsive">
                         <button type="button" className="btn btn-primary pull-right mb-sm-2 pointer" onClick={e=>this.changeState(e)}>Go Back</button>
                         <table className="table table-striped">
                             <thead>
@@ -109,14 +106,14 @@ export default class TrackReportedBugs extends React.Component{
                                 {bugList}
                             </tbody>
                         </table>
-                    </div>
+                    </Div>
                 }
                 <Modal modalId={this.state.ticketId} title={this.state.title} closeModal={this.closeModal}>
                     {
                         this.state.bugModal ? <TrackBug id={this.state.ticketId} title={this.state.title} /> : null 
                     }
                 </Modal>
-            </div>
+            </Div>
         )
     }
 }

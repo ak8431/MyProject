@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import appUrl from '../../constants/api_constant';
+import {appUrl, BASE_URL} from '../../constants/api_constant';
 import moment from 'moment';
 
 export default class TrackBug extends React.Component{
@@ -30,7 +30,6 @@ export default class TrackBug extends React.Component{
     }
 
     render(){
-        let api = 'http://18.221.153.152:5000';
         return(
             <div>
                 {
@@ -73,7 +72,7 @@ export default class TrackBug extends React.Component{
                             </div>
                         </div>
                         <div className="col-sm-12">
-                            <img className="card-img-top" src={api+this.state.bugDetail.attributes.screenshot[0].thumb_location.substr(8)} alt={this.state.bugDetail.attributes.screenshot[0].filename} />
+                            <img className="card-img-top" src={BASE_URL+this.state.bugDetail.attributes.screenshot[0].thumb_location.substr(8)} alt={this.state.bugDetail.attributes.screenshot[0].filename} />
                         </div>
                     </div> : 
                     null
