@@ -10,9 +10,21 @@ export default class App extends React.Component{
   constructor(props){
     super(props);
     this.state = {
-      visibleClass : false
+      visibleClass : false,
+      sidebarActiveClass : null
     }
     this.changeSidebarHandler = this.changeSidebarHandler.bind(this);
+  }
+
+  componentDidMount(){
+    let path = window.location.pathname;
+    if(path==='/track-bug'){
+      this.setState({sidebarActiveClass : 'track-bug'});
+    }else if(path==='/report-bug'){
+      this.setState({sidebarActiveClass : 'report-bug'});
+    }else{
+      console.log('not a valid address');
+    }
   }
 
   changeSidebarHandler(){
@@ -20,13 +32,20 @@ export default class App extends React.Component{
     this.setState({ visibleClass : !visibleClass});
   }
 
+  changeSidebarActiveLink = (linkName) => {
+    if(this.state.sidebarActiveClass === linkName){
+      return false;
+    }
+    this.setState({sidebarActiveClass : linkName});
+  }
+
   render(){
     return(
-      <Div class="container-fluid">
+      <Div class="">
         <Header changeSidebarHandler={this.changeSidebarHandler} />
         <Div class="scrollbars">
           <Div class="row">
-            <SidebarNav visible={this.state.visibleClass} />
+            <SidebarNav changeSidebarActiveLink={this.changeSidebarActiveLink} visible={this.state.visibleClass} sidebarActive={this.state.sidebarActiveClass} />
             <Routes visible={this.state.visibleClass} />
           </Div>
         </Div>

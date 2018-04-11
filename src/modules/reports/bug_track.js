@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import {appUrl, BASE_URL} from '../../constants/api_constant';
 import moment from 'moment';
+import Div from '../../components/HtmlElements/Div';
 
 export default class TrackBug extends React.Component{
     constructor(props){
@@ -31,18 +32,18 @@ export default class TrackBug extends React.Component{
 
     render(){
         return(
-            <div>
+            <Div>
                 {
                     this.state.showBug ? 
-                    <div className="row" style={{height:"300px", overflow:"auto"}}>
-                        <div className="card col-sm-12">
-                            <div className="row">
-                                <div className="col-sm-12">
+                    <Div class="row" style={{height:"300px", overflow:"auto"}}>
+                        <Div class="card col-sm-12">
+                            <Div class="row">
+                                <Div class="col-sm-12">
                                     <span className="badge badge-primary pull-left" style={{marginLeft:"-15px"}}>{this.state.bugDetail.attributes.status}</span>
                                     <small className="pull-right"><strong>Created At: </strong>{moment(this.state.bugDetail.attributes.created_at).format('LL')}</small>
-                                </div>
-                            </div>
-                            <div className="card-body">
+                                </Div>
+                            </Div>
+                            <Div class="card-body">
                                 <ul className="list-group list-group-flush">
                                     <li className="list-group-item" style={{borderTop:0}}>
                                         <label className="pull-left">Name</label>
@@ -69,15 +70,15 @@ export default class TrackBug extends React.Component{
                                         <label className="pull-right">{this.state.bugDetail.attributes.estimated_date_to_fix}</label>
                                     </li>
                                 </ul>
-                            </div>
-                        </div>
-                        <div className="col-sm-12">
+                            </Div>
+                        </Div>
+                        <Div class="col-sm-12">
                             <img className="card-img-top" src={BASE_URL+this.state.bugDetail.attributes.screenshot[0].thumb_location.substr(8)} alt={this.state.bugDetail.attributes.screenshot[0].filename} />
-                        </div>
-                    </div> : 
+                        </Div>
+                    </Div> : 
                     null
                 }
-            </div>
+            </Div>
         )
     }
 }
