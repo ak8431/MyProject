@@ -1,4 +1,4 @@
-let BASE_URL = 'http://18.221.153.152:5000';
+let BASE_URL = 'http://18.221.153.152:6533';
 var API_BASE_URL = `${BASE_URL}/`;
 
 var appUrl = {

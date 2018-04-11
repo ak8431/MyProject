@@ -9,6 +9,7 @@ export default class ReportBug extends React.Component{
         this.state = {
             blockUi : false
         }
+        this.blockUi = this.blockUi.bind(this);
     }
 
     blockUi(val){
@@ -23,7 +24,7 @@ export default class ReportBug extends React.Component{
                 <Paragraph text={text} class="text-center">
                     <span>Hi there,</span><br />
                 </Paragraph>
-                <BugReportForm />
+                <BugReportForm blockUi={this.blockUi} />
             </BlockUi>
         )
     }

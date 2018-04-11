@@ -6,7 +6,6 @@ const Header = (props) => {
         <nav className="navbar navbar-expand-md navbar-dark fixed-top bg-primary header-shadow">
             <a className="navbar-brand pointer" onClick={props.changeSidebarHandler}>
                 <i className="fa fa-bars fa-lg text-white" aria-hidden="true"></i>
-                Click Here
             </a>
         </nav>
     </header>

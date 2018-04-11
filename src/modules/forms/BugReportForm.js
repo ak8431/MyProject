@@ -46,15 +46,16 @@ export default class BugReportForm extends React.Component{
     }
 
     findUser(email){
-        this.setState({blockUi:true});
+        this.props.blockUi(true);
         axios({
             url: appUrl.USER,
             method: 'POST',
             data:{ "email" :email}
         }).then(response=>{
-            this.setState({blockUi:false, emailDetails : response.data});
+            this.setState({emailDetails : response.data});
+            this.props.blockUi(false);
         }).catch(err=>{
-            this.setState({blockUi : false});
+            this.props.blockUi(false);
         })
     }
 
@@ -113,14 +114,19 @@ export default class BugReportForm extends React.Component{
     }
 
     sendReport(data){
+        this.props.blockUi(true);
         axios({
             url    : appUrl.REPORTS,
             method : 'POST',
             data   : data
         }).then(res=>{
             this.clearForm();
+            this.props.blockUi(false);
             alert('Your bug has been successfully reported');
-        }).catch(err=>alert('There was an eror reporting your bug'));
+        }).catch(err=>{
+            this.props.blockUi(false);
+            alert('There was an eror reporting your bug')
+        });
     }
 
     clearForm(){

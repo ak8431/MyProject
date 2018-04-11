@@ -6,9 +6,8 @@ import Modal from '../../components/modal';
 import TrackBug from './bug_track';
 import Paragraph from '../../components/paragraph';
 import Div from '../../components/HtmlElements/Div';
-import Form from '../../components/Form';
-import {validateEmail} from '../../controllers/functions';
-// import $ from 'jquery';
+import TrackBugEmailForm from '../forms/TrackBugEmailForm';
+import BlockUi from 'react-block-ui';
 
 export default class TrackReportedBugs extends React.Component{
     constructor(props){
@@ -17,41 +16,32 @@ export default class TrackReportedBugs extends React.Component{
             showDetails : false,
             bugsList    : [],
             ticketId    : null,
-            title       : 'Bug Status'
+            title       : 'Bug Status',
+            blockUi     : false
         }
         this.openModal  = this.openModal.bind(this);
         this.closeModal = this.closeModal.bind(this);
+        this.fetchAllReports = this.fetchAllReports.bind(this);
     }
 
     fetchAllReports(email){
+        this.setState({blockUi: true});
         axios({
             url    : appUrl.REPORTS+'/'+email+'?limit=200&offset=0',
             method : 'GET',
             contentType:'application/json'
-        }).then((response)=>{
+        }).then(response=>{
+            this.setState({blockUi: false});
             if(!response.data.meta){
                 console.log(response.data);
                 // document.getElementById('myModal').modal('toggle');
             }else{
                 this.setState({showDetails: true, bugsList : response.data.data});
             }
-        }).catch((err)=>console.log(err));
-    }
-
-    handleSubmit(e){
-        e.preventDefault();
-        return this.handleDetails(e)
-    }
-
-    handleDetails(e){
-        e.preventDefault();
-        let email   = this.refs.email.value.trim();
-        let isValid = validateEmail(email);
-        if(isValid){
-            this.fetchAllReports(email);
-        }else{
-            alert('Not a valid Email-id')
-        }
+        }).catch(err=>{
+            console.log(err)
+            this.setState({blockUi: false});
+        });
     }
 
     changeState(e){
@@ -68,27 +58,18 @@ export default class TrackReportedBugs extends React.Component{
     }
 
     render(){
-        let bugList = this.state.bugsList.map((detail,index)=>{
-            return (
-                <BugList detail={detail} openModal={this.openModal} index={index} key={detail.ticketId} />
-            )
-        })
+        let bugList = this.state.bugsList.map((detail,index)=>
+            <BugList detail={detail} openModal={this.openModal} index={index} key={detail.ticketId} />
+        )
         let text = "You can track (Open, Assigned, being progressed, Testing, Staging, Fixed) bugs reported by you using your registered email id's :We are shortly going to introduce aging of these bugs and avg time for bug fixing."
         return(
-            <Div class="p-lg">
+            <BlockUi blocking={this.state.blockUi} className="p-lg">
                 <Paragraph text={text} class="text-center">
                     <span>Hi there (again)</span> <br />
                 </Paragraph>
                 {!this.state.showDetails ? 
-                    <Form onSubmit={e=>this.handleSubmit(e)}>
-                        <Div class="form-inline">
-                            <Div class="input-group col-md-8">
-                                <label htmlFor="email"></label>
-                                <input id="email" type="email" className="form-control" placeholder="Enter Email-id to find your reported bugs" ref="email" />
-                            </Div>
-                            <button type="button" className="btn btn-primary col-md-3 pointer" onClick={e=>this.handleDetails(e)}>Find</button>
-                        </Div>
-                    </Form> :
+                    <TrackBugEmailForm fetchAllReports={this.fetchAllReports} /> 
+                    :
                     <Div class="table-responsive">
                         <button type="button" className="btn btn-primary pull-right mb-sm-2 pointer" onClick={e=>this.changeState(e)}>Go Back</button>
                         <table className="table table-striped">
@@ -113,7 +94,7 @@ export default class TrackReportedBugs extends React.Component{
                         this.state.bugModal ? <TrackBug id={this.state.ticketId} title={this.state.title} /> : null 
                     }
                 </Modal>
-            </Div>
+            </BlockUi>
         )
     }
 }
