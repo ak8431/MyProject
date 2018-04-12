@@ -1,7 +1,7 @@
 let BASE_URL = 'http://18.221.153.152:6533';
-var API_BASE_URL = `${BASE_URL}/`;
+let API_BASE_URL = `${BASE_URL}/`;
 
-var appUrl = {
+let appUrl = {
     USER    : API_BASE_URL+'find-user',
     REPORTS : API_BASE_URL+'bug-report'
 };

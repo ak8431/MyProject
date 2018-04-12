@@ -17,7 +17,8 @@ export default class TrackReportedBugs extends React.Component{
             bugsList    : [],
             ticketId    : null,
             title       : 'Bug Status',
-            blockUi     : false
+            blockUi     : false,
+            bugModal    : false
         }
         this.openModal  = this.openModal.bind(this);
         this.closeModal = this.closeModal.bind(this);
@@ -27,11 +28,12 @@ export default class TrackReportedBugs extends React.Component{
     fetchAllReports(email){
         this.setState({blockUi: true});
         axios({
-            url    : appUrl.REPORTS+'/'+email+'?limit=200&offset=0',
+            url    : appUrl.REPORTS+'?email='+email+'&limit=200&offset=0',
             method : 'GET',
             contentType:'application/json'
         }).then(response=>{
             this.setState({blockUi: false});
+            console.log(response.data);
             if(!response.data.meta){
                 console.log(response.data);
                 // document.getElementById('myModal').modal('toggle');
@@ -59,7 +61,7 @@ export default class TrackReportedBugs extends React.Component{
 
     render(){
         let bugList = this.state.bugsList.map((detail,index)=>
-            <BugList detail={detail} openModal={this.openModal} index={index} key={detail.ticketId} />
+            <BugList detail={detail} openBugModal={this.openModal} index={index} key={detail.ticketId} />
         )
         let text = "You can track (Open, Assigned, being progressed, Testing, Staging, Fixed) bugs reported by you using your registered email id's :We are shortly going to introduce aging of these bugs and avg time for bug fixing."
         return(
@@ -89,7 +91,7 @@ export default class TrackReportedBugs extends React.Component{
                         </table>
                     </Div>
                 }
-                <Modal modalId={this.state.ticketId} title={this.state.title} closeModal={this.closeModal}>
+                <Modal modalSize="bd-example-modal-lg" modalId={this.state.ticketId} title={this.state.title} closeModal={this.closeModal}>
                     {
                         this.state.bugModal ? <TrackBug id={this.state.ticketId} title={this.state.title} /> : null 
                     }
