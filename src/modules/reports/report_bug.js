@@ -2,6 +2,7 @@ import React from 'react';
 import Paragraph from '../../components/paragraph';
 import BugReportForm from '../forms/BugReportForm';
 import BlockUi from 'react-block-ui';
+import NotificationSystem from 'react-notification-system';
 
 export default class ReportBug extends React.Component{
     constructor(props){
@@ -9,10 +10,24 @@ export default class ReportBug extends React.Component{
         this.state = {
             blockUi : false
         }
-        this.blockUi = this.blockUi.bind(this);
+        this._notificationSystem = null;
     }
 
-    blockUi(val){
+    componentDidMount(){
+        this._notificationSystem = this.refs.notificationSystem
+    }
+
+    _addNotification = (title, message, type="info", autoDismiss=200, position="tr")=>{
+        this._notificationSystem.addNotification({
+            title,
+            message,
+            level: type,
+            autoDismiss,
+            position
+        });
+    }
+
+    blockUi= (val)=>{
         this.setState({blockUi : val});
     }
 
@@ -21,10 +36,11 @@ export default class ReportBug extends React.Component{
         
         return(
             <BlockUi blocking={this.state.blockUi} className="p-lg">
+                <NotificationSystem ref="notificationSystem" />
                 <Paragraph text={text} class="text-center">
                     <span>Hi there,</span><br />
                 </Paragraph>
-                <BugReportForm blockUi={this.blockUi} />
+                <BugReportForm blockUi={this.blockUi} _addNotification={this._addNotification} />
             </BlockUi>
         )
     }

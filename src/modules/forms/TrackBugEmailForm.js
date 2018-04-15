@@ -18,6 +18,7 @@ export default class TrackBugEmailForm extends React.Component{
             this.props.fetchAllReports(email);
         }else{
             this.refs.email.className = "form-control bg-danger";
+            this.props._addNotification('invalid Email-Id','Enter a valid email-id', 'warning', 2000);
         }
     }
 

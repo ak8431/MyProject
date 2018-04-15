@@ -38,7 +38,7 @@ export default class BugReportForm extends React.Component{
         let email = validateEmail(e.target.value);
         if(!email){
             e.target.className = "form-control bg-danger";
-            // e.target.focus;
+            this.props._addNotification('Invalid Email-Id','Enter a valid email-id', 'warning', 500);
             return false;
         }else{
             this.findUser(e.target.value);
@@ -55,6 +55,7 @@ export default class BugReportForm extends React.Component{
             this.setState({emailDetails : response.data});
             this.props.blockUi(false);
         }).catch(err=>{
+            this.props._addNotification('Error', 'Your request could not be completed. Please check your internet connection.', 'error', 500, 'tc');
             this.props.blockUi(false);
         })
     }
@@ -66,7 +67,7 @@ export default class BugReportForm extends React.Component{
         for(let em in emailDetails){
             if(em===environment){
                 if(!emailDetails[em].meta){
-                    alert('Wrong environment selected');
+                    this.props._addNotification('Wrong Environment', 'The environment selected was not found', 'warning', 500, "br");
                 }else{
                     this.setState({envDetails : emailDetails[em]});
                 }
@@ -80,16 +81,19 @@ export default class BugReportForm extends React.Component{
         let emailValid = validateEmail(this.refs.user_email.value);
         if(!emailValid){
             this.refs.user_email.className = "form-control bg-danger";
+            this.props._addNotification('Enter valid Email-id', 'Enter a valid email-id to submit bugs', 'warning', 500);
             return false;
         }
 
         if(this.refs.user_environments.value.trim()==="" && this.refs.user_environments.value==='0'){
             this.refs.user_environments.className = "form-control bg-danger";
+            this.props._addNotification('Select an environment', 'Select an environment from where you have found the bugs', 'warning', 500);
             return false;
         }
 
         if(this.refs.user_description.value.trim()===""){
             this.refs.user_description.className = "form-control bg-danger";
+            this.props._addNotification('Enter Description', 'Enter a description of the bugs, so that we are able to identify the problem. Thanks', 'warning', 500);
             return false;
         }
 
@@ -122,10 +126,10 @@ export default class BugReportForm extends React.Component{
         }).then(res=>{
             this.clearForm();
             this.props.blockUi(false);
-            alert('Your bug has been successfully reported');
+            this.props._addNotification('Success','Successfully reported bug', 'success', 500);
         }).catch(err=>{
             this.props.blockUi(false);
-            alert('There was an eror reporting your bug')
+            this.props._addNotification('Error','Error reporting bug. Please Try again', 'error', 500, 'tc');
         });
     }
 
