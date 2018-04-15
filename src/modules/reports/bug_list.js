@@ -1,5 +1,6 @@
 import React from 'react';
 import moment from 'moment';
+import {Tr, Td} from '../../components/HtmlElements/TableElements';
 
 const BugList = (props) => {
   let statusClass;
@@ -19,22 +20,22 @@ const BugList = (props) => {
         break;
   }
   return (
-    <tr>
-        <td>{props.index+1}</td>
-        <td>{props.detail.ticketId}</td>
-        <td>
+    <Tr>
+        <Td text={props.index+1}></Td>
+        <Td text={props.detail.ticketId}></Td>
+        <Td>
             <span>{props.detail.attributes.description}</span>
-        </td>
-        <td>{props.detail.attributes.estimated_date_to_fix && moment(props.detail.attributes.estimated_date_to_fix).format('LLL')}</td>
-        <td>
+        </Td>
+        <Td text={props.detail.attributes.estimated_date_to_fix && moment(props.detail.attributes.estimated_date_to_fix).format('LLL')}></Td>
+        <Td>
             <span className={"badge " + statusClass}>{props.detail.attributes.status}</span>
-        </td>
-        <td>
+        </Td>
+        <Td>
             <a className="btn btn-default btn-sm pointer" data-toggle="modal" data-target={"#"+props.detail.ticketId} onClick={e=>props.openBugModal(props.detail.ticketId, 'Bug Status')}>
                 <i className="fa fa-telegram"></i>
             </a>
-        </td>
-    </tr>
+        </Td>
+    </Tr>
   )
 }
 export default BugList;

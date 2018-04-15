@@ -1,13 +1,12 @@
 import React from 'react';
 import axios from 'axios';
 import {appUrl} from '../../constants/api_constant'
-import BugList from './bug_list';
 import Modal from '../../components/modal';
 import TrackBug from './bug_track';
 import Paragraph from '../../components/paragraph';
-import Div from '../../components/HtmlElements/Div';
 import TrackBugEmailForm from '../forms/TrackBugEmailForm';
 import BlockUi from 'react-block-ui';
+import BugReportedTable from './BugReportedTable';
 
 export default class TrackReportedBugs extends React.Component{
     constructor(props){
@@ -20,7 +19,6 @@ export default class TrackReportedBugs extends React.Component{
             blockUi     : false,
             bugModal    : false
         }
-        this.openModal  = this.openModal.bind(this);
         this.closeModal = this.closeModal.bind(this);
         this.fetchAllReports = this.fetchAllReports.bind(this);
     }
@@ -28,7 +26,7 @@ export default class TrackReportedBugs extends React.Component{
     fetchAllReports(email){
         this.setState({blockUi: true});
         axios({
-            url    : appUrl.REPORTS+'?email='+email+'&limit=200&offset=0',
+            url    : appUrl.REPORTS+'?email='+email+'&limit=300&offset=0',
             method : 'GET',
             contentType:'application/json'
         }).then(response=>{
@@ -46,13 +44,12 @@ export default class TrackReportedBugs extends React.Component{
         });
     }
 
-    changeState(e){
+    showEmailToSearch = ()=>{
         this.setState({showDetails: false});
     }
 
-    openModal(id, title){
-        let _this = this;
-        _this.setState({ticketId: id, title : title, bugModal : true});
+    openModal = (id, title)=>{
+        this.setState({ticketId: id, title : title, bugModal : true});
     }
 
     closeModal(){
@@ -60,9 +57,6 @@ export default class TrackReportedBugs extends React.Component{
     }
 
     render(){
-        let bugList = this.state.bugsList.map((detail,index)=>
-            <BugList detail={detail} openBugModal={this.openModal} index={index} key={detail.ticketId} />
-        )
         let text = "You can track (Open, Assigned, being progressed, Testing, Staging, Fixed) bugs reported by you using your registered email id's :We are shortly going to introduce aging of these bugs and avg time for bug fixing."
         return(
             <BlockUi blocking={this.state.blockUi} className="p-lg">
@@ -72,24 +66,7 @@ export default class TrackReportedBugs extends React.Component{
                 {!this.state.showDetails ? 
                     <TrackBugEmailForm fetchAllReports={this.fetchAllReports} /> 
                     :
-                    <Div class="table-responsive">
-                        <button type="button" className="btn btn-primary pull-right mb-sm-2 pointer" onClick={e=>this.changeState(e)}>Go Back</button>
-                        <table className="table table-striped">
-                            <thead>
-                                <tr>
-                                    <th>S.No.</th>
-                                    <th>Ticket Id</th>
-                                    <th>Description</th>
-                                    <th>Estimated Time</th>
-                                    <th>Status</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {bugList}
-                            </tbody>
-                        </table>
-                    </Div>
+                    <BugReportedTable bugsList={this.state.bugsList} openModal={this.openModal} showEmailToSearch={this.showEmailToSearch} />
                 }
                 <Modal modalSize="bd-example-modal-lg" modalId={this.state.ticketId} title={this.state.title} closeModal={this.closeModal}>
                     {

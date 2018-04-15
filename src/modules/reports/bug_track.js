@@ -3,6 +3,7 @@ import axios from 'axios';
 import {appUrl, BASE_URL} from '../../constants/api_constant';
 import moment from 'moment';
 import Div from '../../components/HtmlElements/Div';
+import {Ul, Li} from '../../components/HtmlElements/UlElements';
 
 export default class TrackBug extends React.Component{
     constructor(props){
@@ -45,7 +46,7 @@ export default class TrackBug extends React.Component{
                 {
                     showBug ? 
                     <Div class="row" style={{height:"300px", overflow:"auto"}}>
-                        <Div class="card col-sm-12">
+                        <Div class="col-sm-12">
                             <Div class="row">
                                 <Div class="col-sm-12">
                                     <span className="badge badge-primary pull-left" style={{marginLeft:"-15px"}}>{bugDetail.attributes.status}</span>
@@ -53,35 +54,35 @@ export default class TrackBug extends React.Component{
                                 </Div>
                             </Div>
                             <Div class="card-body">
-                                <ul className="list-group list-group-flush">
-                                    <li className="list-group-item" style={{borderTop:0}}>
+                                <Ul class="list-group list-group-flush">
+                                    <Li class="list-group-item" style={{borderTop:0}}>
                                         <label className="pull-left">Name</label>
                                         <label className="pull-right">{bugDetail.attributes.name}</label>
-                                    </li>
-                                    <li className="list-group-item">
+                                    </Li>
+                                    <Li class="list-group-item">
                                         <label className="pull-left">Email</label>
                                         <label className="pull-right">{bugDetail.attributes.email}</label>
-                                    </li>
-                                    <li className="list-group-item">
+                                    </Li>
+                                    <Li class="list-group-item">
                                         <label className="pull-left">File Uploaded</label>
                                         <label className="pull-right">{bugDetail.attributes.screenshot.length}</label>
-                                    </li>
-                                    <li className="list-group-item">
+                                    </Li>
+                                    <Li class="list-group-item">
                                         <label className="pull-left">Description</label>
                                         <label className="pull-right">{bugDetail.attributes.description}</label>
-                                    </li>
-                                    <li className="list-group-item">
+                                    </Li>
+                                    <Li class="list-group-item">
                                         <label className="pull-left">Expected Result</label>
                                         <label className="pull-right">{bugDetail.attributes.expected_result}</label>
-                                    </li>
-                                    <li className="list-group-item">
+                                    </Li>
+                                    <Li class="list-group-item">
                                         <label className="pull-left">Estimated Date to Fix</label>
-                                        <label className="pull-right">{bugDetail.attributes.estimated_date_to_fix}</label>
-                                    </li>
-                                </ul>
+                                        <label className="pull-right">{bugDetail.attributes.estimated_date_to_fix && moment(bugDetail.attributes.estimated_date_to_fix).format('LLL')}</label>
+                                    </Li>
+                                </Ul>
                             </Div>
                         </Div>
-                        <Div class="col-sm-12">
+                        <Div class="uploaded_images col-sm-12">
                             {images}
                         </Div>
                     </Div> : 
