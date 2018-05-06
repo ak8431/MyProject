@@ -11,6 +11,7 @@ export default class ReportBug extends React.Component{
             blockUi : false
         }
         this._notificationSystem = null;
+        this.fileHandle = this.fileHandle.bind(this);
     }
 
     componentDidMount(){
@@ -27,6 +28,14 @@ export default class ReportBug extends React.Component{
         });
     }
 
+    fileHandle(){
+        let fileObj = {
+            type : 'image',
+            url  : '../../assests/AbstractHDWallpaper.jpg'
+        }
+        this.props.fileAPI(fileObj);
+    }
+
     blockUi= (val)=>{
         this.setState({blockUi : val});
     }
@@ -40,6 +49,7 @@ export default class ReportBug extends React.Component{
                 <Paragraph text={text} class="text-center">
                     <span>Hi there,</span><br />
                 </Paragraph>
+                <button type="button" className="btn btn-info pointer" onClick={this.fileHandle} data-toggle="modal" data-target="#myModal">Open Modal</button>
                 <BugReportForm blockUi={this.blockUi} _addNotification={this._addNotification} />
             </BlockUi>
         )

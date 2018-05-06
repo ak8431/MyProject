@@ -5,15 +5,18 @@ import SidebarNav from './components/sidebar';
 import Routes from './controllers/routes';
 import Div from './components/HtmlElements/Div';
 // import Modal from './components/modal';
+import FileContainer from './modules/file_preview/file_container';
 
 export default class App extends React.Component{
   constructor(props){
     super(props);
     this.state = {
       visibleClass : false,
-      sidebarActiveClass : null
+      sidebarActiveClass : null,
+      file : null
     }
     this.changeSidebarHandler = this.changeSidebarHandler.bind(this);
+    this.fileData = this.fileData.bind(this);
   }
 
   componentDidMount(){
@@ -39,14 +42,20 @@ export default class App extends React.Component{
     this.setState({sidebarActiveClass : linkName});
   }
 
+  fileData(fileObj){
+    console.log('called in API')
+    this.setState({file : fileObj});
+  }
+
   render(){
     return(
       <Div class="">
+        <FileContainer file={this.state.file} />
         <Header changeSidebarHandler={this.changeSidebarHandler} />
         <Div class="scrollbars">
           <Div class="row">
             <SidebarNav changeSidebarActiveLink={this.changeSidebarActiveLink} visible={this.state.visibleClass} sidebarActive={this.state.sidebarActiveClass} />
-            <Routes visible={this.state.visibleClass} />
+            <Routes visible={this.state.visibleClass} fileAPI={this.fileData} />
           </Div>
         </Div>
       </Div>

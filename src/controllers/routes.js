@@ -9,8 +9,8 @@ const Routes = (props)=>{
     return (
         <main role="main" className={visibleClass + " ml-sm-auto pt-3"}>
             <Switch>
-                <Route exact path='/' component={ReportBug} />
-                <Route exact path='/report-bug' component={ReportBug} />
+                <Route exact path='/' render={()=><ReportBug fileAPI={props.fileAPI} />} />
+                <Route exact path='/report-bug' render={()=><ReportBug fileAPI={props.fileAPI} />} />
                 <Route exact path='/track-bug' component={TrackReportedBugs} />
                 {/* <Route exact path='/track-bug/:id' component={TrackBug} /> */}
             </Switch>
